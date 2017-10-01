@@ -4,7 +4,7 @@ using System.Text;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;
-using SuperFuncular.Helpers;
+using SuperFuncular.Matrix;
 
 namespace SuperFuncular.Strings
 {

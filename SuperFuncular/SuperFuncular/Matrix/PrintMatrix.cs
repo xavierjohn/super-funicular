@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit.Abstractions;
 
-namespace SuperFuncular.Helpers
+namespace SuperFuncular.Matrix
 {
     static public class PrintMatrixExtension
     {
