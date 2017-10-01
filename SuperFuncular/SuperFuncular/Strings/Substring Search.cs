@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
+using SuperFuncular.Helpers;
 
 namespace SuperFuncular.Strings
 {
+    [Trait("Chapter", "Strings")]
     public class Substring_Search
     {
+        public ITestOutputHelper Output { get; }
+
+        public Substring_Search(ITestOutputHelper output)
+        {
+            Output = output;
+        }
+
         public class KnuthMorrisPrattSearch
         {
-            int[,] deterministicFiniteStateAutomaton;
+            public int[,] deterministicFiniteStateAutomaton;
             public KnuthMorrisPrattSearch(String pattern)
             { // Build DFA from pattern.
                 int columns = pattern.Length;
@@ -34,7 +44,6 @@ namespace SuperFuncular.Strings
                 if (j == M) return i - M; // found (hit end of pattern)
                 else return -1; // not found
             }
-
         }
 
         [Theory]
@@ -43,6 +52,7 @@ namespace SuperFuncular.Strings
         public void SubStringShouldExist(string text, string pattern, int expectedIndex)
         {
             var kmp = new KnuthMorrisPrattSearch(pattern);
+            kmp.deterministicFiniteStateAutomaton.Print(Output);
             kmp.Search(text).Should().Be(expectedIndex);
         }
 
