@@ -11,6 +11,7 @@ using Xunit.Abstractions;
 namespace SuperFuncular.Matrix
 {
     public class SparseMatrix<T>
+        where T : IEquatable<T>
     {
         IDictionary<int, IDictionary<int, T>> matrix;
 
@@ -36,19 +37,31 @@ namespace SuperFuncular.Matrix
 
             set
             {
-                if (matrix.TryGetValue(row, out IDictionary<int, T> columnDict))
-                    columnDict[column] = value;
+                if (value.Equals(default(T)))
+                {
+                    if (matrix.TryGetValue(row, out IDictionary<int, T> columnDict))
+                        if (columnDict.ContainsKey(column))
+                            columnDict.Remove(column);
+                    return;
+                }
                 else
-                    matrix[row] = new Dictionary<int, T>() {
+                {
+                    if (matrix.TryGetValue(row, out IDictionary<int, T> columnDict))
+                        columnDict[column] = value;
+                    else
+                        matrix[row] = new Dictionary<int, T>() {
                         {column, value }
                     };
-                if (row > Rows) Rows = row;
-                if (column > Columns) Columns = column;
+                    if (row >= Rows) Rows = row + 1;
+                    if (column >= Columns) Columns = column + 1;
+                }
             }
         }
 
         public void SparsePrint(TextWriter tw)
         {
+            tw.WriteLine("Format (row, column, value)");
+
             foreach (var row in matrix.Keys.OrderBy(k => k))
             {
                 foreach (var column in matrix[row].OrderBy(k => k.Key))
@@ -79,8 +92,8 @@ namespace SuperFuncular.Matrix
             sm[1000, 2000].Should().Be(2);
             sm[5, 5].Should().Be(0);
             sm[1000000, 1000000].Should().Be(0);
-            sm.Rows.Should().Be(1000);
-            sm.Columns.Should().Be(2000);
+            sm.Rows.Should().Be(1001);
+            sm.Columns.Should().Be(2001);
         }
 
         [Fact]
