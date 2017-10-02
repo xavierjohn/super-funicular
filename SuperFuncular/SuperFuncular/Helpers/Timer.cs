@@ -22,8 +22,7 @@ namespace SuperFuncular.Helpers
         public void Print(TextWriter textWriter = null)
         {
             if (textWriter != null)
-                textWriter.WriteLine($"Timing for {Descripiton} is {ElapsedTime.Hours:00}:" +
-                    $"{ElapsedTime.Minutes:00}:{ElapsedTime.Seconds:00}.{ElapsedTime.Milliseconds / 10:00}");
+                textWriter.WriteLine($"Timing for {Descripiton} is {ElapsedTime.Ticks}");
         }
     }
 
