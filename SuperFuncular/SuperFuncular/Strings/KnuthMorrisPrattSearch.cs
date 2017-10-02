@@ -27,10 +27,11 @@ namespace SuperFuncular.Strings
             deterministicFiniteStateAutomaton.SparsePrint(tw);
         }
 
-        public int Search(String txt)
-        { // Simulate operation of DFA on txt.
+        public int Search(String txt, int startIndex = 0)
+        {
+            if (startIndex >= txt.Length) throw new ArgumentOutOfRangeException();
             int i, j, N = txt.Length, M = deterministicFiniteStateAutomaton.Columns;
-            for (i = 0, j = 0; i < N && j < M; i++)
+            for (i = startIndex, j = 0; i < N && j < M; i++)
                 j = deterministicFiniteStateAutomaton[txt[i], j];
             if (j == M) return i - M; // found (hit end of pattern)
             else return -1; // not found
