@@ -6,17 +6,15 @@ namespace SuperFuncular.Strings
 {
     public class KnuthMorrisPrattSearch
     {
-        SparseMatrix<int> deterministicFiniteStateAutomaton = new SparseMatrix<int>();
+        SparseColumnMatrix<int> deterministicFiniteStateAutomaton = new SparseColumnMatrix<int>();
         public KnuthMorrisPrattSearch(String pattern)
         { // Build DFA from pattern.
             int columns = pattern.Length;
-            int rows = 256;
             int columnIndex = 0;
             deterministicFiniteStateAutomaton[pattern[0], columnIndex] = 1;
             for (int column = 1; column < columns; column++)
             {
-                for (int row = 0; row < rows; row++)
-                    deterministicFiniteStateAutomaton[row, column] = deterministicFiniteStateAutomaton[row, columnIndex]; // Copy mismatch cases.
+                deterministicFiniteStateAutomaton.CopyColumn(columnIndex, column);
                 deterministicFiniteStateAutomaton[pattern[column], column] = column + 1; // Set match case.
                 columnIndex = deterministicFiniteStateAutomaton[pattern[column], columnIndex]; // Update restart state.
             }
