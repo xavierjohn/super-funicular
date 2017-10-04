@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using FluentAssertions;
-using SuperFuncular.Helpers;
-using Xunit;
-using Xunit.Abstractions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SuperFuncular.Matrix
 {
@@ -78,17 +75,11 @@ namespace SuperFuncular.Matrix
         }
     }
 
-    [Trait("Chapter", "Matrix")]
+    [TestClass]
     public class SparseColumnMatrixTester
     {
-        private readonly ITestOutputHelper output;
 
-        public SparseColumnMatrixTester(ITestOutputHelper output)
-        {
-            this.output = output;
-        }
-
-        [Fact]
+        [TestMethod]
         public void CanRetrieveTheValueStored()
         {
             var sm = new SparseColumnMatrix<int>();
@@ -103,7 +94,7 @@ namespace SuperFuncular.Matrix
             sm.Columns.Should().Be(2001);
         }
 
-        [Fact]
+        [TestMethod]
         public void CanCopyColumn()
         {
             var sm = new SparseColumnMatrix<int>();
